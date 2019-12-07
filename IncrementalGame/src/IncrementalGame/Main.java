@@ -10,22 +10,13 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
+import javax.swing.*;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 
 public class Main {
-	JLabel counterLabel, clickDamageLabel, monsterHealthLabel, userGoldLabel, upgradeOneText;
-	JButton upgradeOne, upgradeTwo, upgradeThree, upgradeFour;
+	JLabel counterLabel, clickDamageLabel, monsterHealthLabel, userGoldLabel, upgradeOneText, upgradeTwoText,upgradeFourText,
+			upgradeThreeText;
+	JButton upgradeOne, upgradeTwo, upgradeThree, upgradeFour, clickButton;
 	JPanel userGold, clickObject, counter, upgradePanel, monsterHealthPanel;
 
 	int numberOfClicks;
@@ -50,7 +41,7 @@ public class Main {
 
 	double startingMonsterLife;
 	double monsterLife;
-	Font font2, font1;
+	Font font3, font2, font1;
 
 	ClickHandler handler = new ClickHandler();
 	ClickUpgradeOne theUpgradeOne = new ClickUpgradeOne();
@@ -77,7 +68,6 @@ public class Main {
 		upgradedFour = 50;
 
 		costOfUpgradeOne = 5;
-		newCostOfUpgradeOne = 0; // cost of the upgrade
 		costOfUpgradeTwo = 25;
 		costOfUpgradeThree = 50;
 		costOfUpgradeFour = 100;
@@ -92,6 +82,7 @@ public class Main {
 	public void createFont() {
 		font1 = new Font("Helvetica", Font.PLAIN, 32);
 		font2 = new Font("Helvetica", Font.PLAIN, 16);
+		font3 = new Font("Helvetica", Font.PLAIN, 16);
 
 	}
 
@@ -154,26 +145,49 @@ public class Main {
 		JButton upgradeOne = new JButton();
 		upgradeOne.setBackground(Color.green);
 		upgradeOne.addActionListener(theUpgradeOne);
-		upgradeOne.setText("Increase click damage by 2 this costs:" + costOfUpgradeOne);
 		upgradePanel.add(upgradeOne);
+
+		upgradeOneText = new JLabel();
+		upgradeOneText.setText("Increase click damage by:" + upgradedOne + "This costs:" + costOfUpgradeOne);
+		upgradeOneText.setForeground(Color.white);
+		upgradeOneText.setFont(font3);
+		upgradeOne.add(upgradeOneText);
 
 		JButton upgradeTwo = new JButton();
 		upgradeTwo.setBackground(Color.cyan);
 		upgradeTwo.addActionListener(theUpgradeTwo);
-		upgradeTwo.setText("Increase click damage by 5");
 		upgradePanel.add(upgradeTwo);
+
+		upgradeTwoText = new JLabel();
+		upgradeTwoText.setText("Increase click damage by:" + upgradedTwo + "This costs:" + costOfUpgradeTwo);
+		upgradeTwoText.setForeground(Color.white);
+		upgradeTwoText.setFont(font3);
+		upgradeTwo.add(upgradeTwoText);
 
 		JButton upgradeThree = new JButton();
 		upgradeThree.setBackground(Color.red);
 		upgradeThree.addActionListener(theUpgradeThree);
-		upgradeThree.setText("Increase click damage by 15");
+
 		upgradePanel.add(upgradeThree);
+
+		upgradeThreeText = new JLabel();
+		upgradeThreeText.setText("Increase click damage by:" + upgradedThree + "This costs:" + costOfUpgradeThree);
+		upgradeThreeText.setForeground(Color.white);
+		upgradeThreeText.setFont(font3);
+		upgradeThree.add(upgradeThreeText);
 
 		JButton upgradeFour = new JButton();
 		upgradeFour.setBackground(Color.black);
 		upgradeFour.addActionListener(theUpgradeFour);
-		upgradeFour.setText("Increase click damage by 50");
+	
 		upgradePanel.add(upgradeFour);
+		
+		upgradeFourText = new JLabel();
+		upgradeFourText.setText("Increase click damage by:" + upgradedFour + "This costs:" + costOfUpgradeFour);
+		upgradeFourText.setForeground(Color.white);
+		upgradeFourText.setFont(font3);
+		upgradeFour.add(upgradeFourText);
+		
 
 		JPanel monsterHealthPanel = new JPanel(); // JPanel for monster life
 		monsterHealthPanel.setBounds(135, 200, 350, 100);
@@ -215,7 +229,7 @@ public class Main {
 				monsterLife = startingMonsterLife;
 				monsterHealthLabel.setText((int) monsterLife + " " + "Health");
 				userGoldAmount++;
-				userGoldAmount = (int) userGoldAmount * 1.2;
+				userGoldAmount = (int) userGoldAmount * 1.25;
 				userGoldLabel.setText((int) userGoldAmount + " " + "Gold");
 			}
 		}
@@ -225,39 +239,64 @@ public class Main {
 		public void actionPerformed(ActionEvent event) {
 			if (userGoldAmount >= costOfUpgradeOne) {
 				amountOfUpgradedOne++;
-				
+				upgradedOne = (int) (upgradedOne * 1.5);
 				clickDamage = clickDamage + upgradedOne;
 				clickDamageLabel.setText(clickDamage + " " + "Click Damage");
 				userGoldAmount = userGoldAmount - costOfUpgradeOne;
 				userGoldLabel.setText((int) userGoldAmount + " " + "Gold");
-				
-			} else {
-				upgradeOne.setText("New button code");
+				costOfUpgradeOne = (int) (costOfUpgradeOne * 1.5);
+				upgradeOneText.setText("Increase click damage by:" + upgradedOne + "This costs:" + costOfUpgradeOne);
+
+			}
 		}
 	}
 
 	public class ClickUpgradeTwo implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			amountOfUpgradedTwo++;
+			if (userGoldAmount >= costOfUpgradeTwo) {
+				amountOfUpgradedTwo++;
+				upgradedTwo = (int) (upgradedTwo * 1.5);
+				clickDamage = clickDamage + upgradedTwo;
+				clickDamageLabel.setText(clickDamage + " " + "Click Damage");
+				userGoldAmount = userGoldAmount - costOfUpgradeTwo;
+				userGoldLabel.setText((int) userGoldAmount + " " + "Gold");
+				costOfUpgradeTwo = (int) (costOfUpgradeTwo * 1.5);
+				upgradeTwoText.setText("Increase click damage by:" + upgradedTwo + "This costs:" + costOfUpgradeTwo);
 
-			clickDamage = clickDamage + upgradedTwo;
-			clickDamageLabel.setText(clickDamage + " " + "Click Damage");
+			}
 		}
 	}
 
 	public class ClickUpgradeThree implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			amountOfUpgradedThree++;
-			clickDamage = clickDamage + upgradedThree;
-			clickDamageLabel.setText(clickDamage + " " + "Click Damage");
+			if (userGoldAmount >= costOfUpgradeThree) {
+				amountOfUpgradedThree++;
+				upgradedThree = (int) (upgradedThree * 1.5);
+				clickDamage = clickDamage + upgradedThree;
+				clickDamageLabel.setText(clickDamage + " " + "Click Damage");
+				userGoldAmount = userGoldAmount - costOfUpgradeThree;
+				userGoldLabel.setText((int) userGoldAmount + " " + "Gold");
+				costOfUpgradeThree = (int) (costOfUpgradeThree * 1.5);
+				upgradeThreeText
+						.setText("Increase click damage by:" + upgradedThree + "This costs:" + costOfUpgradeThree);
+
+			}
 		}
 	}
 
 	public class ClickUpgradeFour implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
-			amountOfUpgradedFour++;
-			clickDamage = clickDamage + upgradedFour;
-			clickDamageLabel.setText(clickDamage + " " + "Click Damage");
+			if (userGoldAmount >= costOfUpgradeFour) {
+				amountOfUpgradedFour++;
+				upgradedFour = (int) (upgradedFour * 1.5);
+				clickDamage = clickDamage + upgradedFour;
+				clickDamageLabel.setText(clickDamage + " " + "Click Damage");
+				userGoldAmount = userGoldAmount - costOfUpgradeFour;
+				userGoldLabel.setText((int) userGoldAmount + " " + "Gold");
+				costOfUpgradeFour = (int) (costOfUpgradeFour * 1.5);
+				upgradeFourText.setText("Increase click damage by:" + upgradedFour + "This costs:" + costOfUpgradeFour);
+
+			}
 		}
 	}
 }
